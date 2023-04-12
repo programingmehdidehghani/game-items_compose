@@ -1,4 +1,4 @@
-package com.example.game_api_compose.ui.theme
+package com.example.game_api_compose.presentation.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
