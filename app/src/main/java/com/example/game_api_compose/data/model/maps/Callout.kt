@@ -1,6 +1,5 @@
 package com.example.game_api_compose.data.model.maps
 
-import android.location.Location
 import com.google.gson.annotations.SerializedName
 
 data class Callout(
