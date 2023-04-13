@@ -1,6 +1,8 @@
 package com.example.game_api_compose.data.model.maps
 
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.RawValue
+
 
 data class MapDto(
     @SerializedName("assetPath")
