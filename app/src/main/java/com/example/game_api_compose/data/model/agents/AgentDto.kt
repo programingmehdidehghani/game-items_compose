@@ -1,6 +1,5 @@
 package com.example.game_api_compose.data.model.agents
 
-import androidx.compose.ui.semantics.Role
 import com.google.gson.annotations.SerializedName
 
 data class AgentDto(
