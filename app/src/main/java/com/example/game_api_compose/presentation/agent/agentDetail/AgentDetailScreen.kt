@@ -1,6 +1,7 @@
 package com.example.game_api_compose.presentation.agent.agentDetail
 
 import android.widget.TableLayout
+import androidx.compose.animation.Animatable
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -9,12 +10,17 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
+import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -27,14 +33,17 @@ import com.skydoves.landscapist.glide.GlideImage
 import com.example.game_api_compose.R
 import com.example.game_api_compose.common.components.ErrorText
 import com.example.game_api_compose.data.model.agents.Ability
+import com.example.game_api_compose.presentation.theme.ValoBlue
 import com.example.game_api_compose.presentation.theme.ValoLightBlue
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import kotlinx.coroutines.launch
 
 
 @Composable
 fun AgentDetailScreen(
     viewModel: AgentDetailViewModel = hiltViewModel()
-){
+) {
     val state = viewModel.state.value
 
     Column(
@@ -42,7 +51,7 @@ fun AgentDetailScreen(
         Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
-         horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
         state.agent?.let {
@@ -58,7 +67,7 @@ fun AgentDetailScreen(
                     .padding(24.dp)
                     .fillMaxWidth(),
                 contentAlignment = Alignment.Center
-            ){
+            ) {
                 GlideImage(
                     modifier = Modifier.fillMaxSize(),
                     imageModel = it.role?.displayIcon,
@@ -107,7 +116,7 @@ fun AgentDetailScreen(
             )
 
             Spacer(modifier = Modifier.size(24.dp))
-            
+
             HeaderText(header = stringResource(R.string.title_abilities))
 
             Spacer(modifier = Modifier.size(8.dp))
@@ -119,21 +128,21 @@ fun AgentDetailScreen(
             state.error,
             Modifier.align(Alignment.CenterHorizontally)
         )
-            
-        if (state.isLoading){
-           CircularProgressIndicator(
-               modifier = Modifier.align(Alignment.CenterHorizontally),
-               color = Color.White
-           )
+
+        if (state.isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                color = Color.White
+            )
         }
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalPagerApi::class)
 @Composable
 fun TabLayout(
     abilities: List<Ability>
-){
+) {
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
 
@@ -145,12 +154,75 @@ fun TabLayout(
             )
             .padding(start = 24.dp, end = 24.dp, bottom = 24.dp)
     ) {
-        Column(
-            TabRow(selectedTabIndex = ) {
-                
-            }
-        ) {
+        Column{
+            TabRow(
+                selectedTabIndex = pagerState.currentPage,
+                backgroundColor = ValoLightBlue,
+                indicator = { tabPositions ->
+                    TabRowDefaults.Indicator(
+                        Modifier
+                            .tabIndicatorOffset(tabPositions[pagerState.currentPage])
+                            .width(0.dp)
+                            .height(0.dp)
+                    )
+                }
+            ) {
+                abilities.forEachIndexed { index, ability ->
+                    val color = remember {
+                        Animatable(ValoRed)
+                    }
 
+                    LaunchedEffect(
+                        pagerState.currentPage == index
+                    ) {
+                        color.animateTo(if (pagerState.currentPage == index) ValoRed else ValoBlue)
+                    }
+                    Tab(
+                        icon = {
+                            GlideImage(
+                                imageModel = ability.displayIcon,
+                                circularReveal = CircularReveal(),
+                                contentScale = ContentScale.Fit,
+                                colorFilter = if (pagerState.currentPage == index) ColorFilter.tint(
+                                    Color.White
+                                )
+                                else ColorFilter.tint(Color.Gray),
+                                modifier = Modifier.size(32.dp)
+                            )
+                        },
+                        selected = pagerState.currentPage == index,
+                        modifier = Modifier
+                            .background(color = color.value),
+                        onClick = {
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(index)
+                            }
+                        }
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.size(12.dp))
+
+            HorizontalPager(
+                count = abilities.size,
+                state = pagerState
+            ) { page ->
+              Column(
+                  horizontalAlignment = Alignment.CenterHorizontally,
+                  verticalArrangement = Arrangement.Center
+              ) {
+                Text(
+                    text = abilities[page].displayName.orEmpty(),
+                    style = MaterialTheme.typography.h5
+                )
+                  Text(
+                      modifier = Modifier.padding(15.dp),
+                      text = abilities[page].description.orEmpty(),
+                      style = MaterialTheme.typography.body1,
+                      textAlign = TextAlign.Center
+                  )
+              }
+            }
         }
 
     }
