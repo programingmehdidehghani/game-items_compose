@@ -15,17 +15,16 @@ class GetAgentDetailUseCase @Inject constructor(
 ) {
    operator fun invoke(agentUuid: String): Flow<Resource<Agent>> = flow {
 
-/*       try {
+       try {
            emit(Resource.Loading)
-           valorantRepository.getAgentByUuid(agentUuid).data?.toAgent().
+           valorantRepository.getAgentByUuid(agentUuid).data?.toAgent()?.let {
                emit(Resource.Success(it))
            }
-
        }catch (e: HttpException){
          emit(Resource.Error(e.localizedMessage.orEmpty()))
        }catch (e: IOException){
            emit(Resource.Error(e.localizedMessage.orEmpty()))
-       }*/
+       }
    }
 
 }
