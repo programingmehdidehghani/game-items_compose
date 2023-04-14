@@ -10,7 +10,7 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class GetAgentUseCase @Inject constructor(
+class GetAgentsUseCase @Inject constructor(
     private val valorantRepository: ValorantRepository
 ) {
 
