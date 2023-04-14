@@ -1,5 +1,6 @@
 package com.example.game_api_compose.data.model.weapons
 
+import com.example.game_api_compose.domain.model.Weapon
 import com.google.gson.annotations.SerializedName
 
 data class WeaponDto(

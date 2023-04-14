@@ -33,7 +33,7 @@ data class MapDto(
     val yScalarToAdd: Double?
 )
 
-fun MapDto.toMap() = Map(
+fun MapDto.toMap() = com.example.game_api_compose.domain.model.Map(
     coordinates = coordinates,
     displayIcon = displayIcon,
     displayName = displayName,

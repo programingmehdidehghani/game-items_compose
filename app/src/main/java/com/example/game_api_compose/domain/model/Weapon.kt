@@ -7,7 +7,7 @@ data class Weapon(
     val category: String?,
     val displayIcon: String?,
     val displayName: String?,
-    var skin: List<Skin>?,
+    var skins: List<Skin>?,
     val uuid: String?,
     val weaponStats: WeaponStats?
 )

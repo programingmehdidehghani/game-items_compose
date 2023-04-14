@@ -4,7 +4,7 @@ import com.example.game_api_compose.data.model.agents.Ability
 import com.example.game_api_compose.data.model.agents.Role
 
 data class Agent(
-    val abilities: Ability,
+    val abilities: List<Ability>,
     val description: String,
     val displayIcon: String,
     val displayName: String,

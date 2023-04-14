@@ -1,5 +1,6 @@
 package com.example.game_api_compose.data.model.CompetitiveTier
 
+import com.example.game_api_compose.domain.model.Tier
 import com.google.gson.annotations.SerializedName
 
 data class TierDto(

@@ -1,5 +1,6 @@
 package com.example.game_api_compose.data.model.agents
 
+import com.example.game_api_compose.domain.model.Agent
 import com.google.gson.annotations.SerializedName
 
 data class AgentDto(

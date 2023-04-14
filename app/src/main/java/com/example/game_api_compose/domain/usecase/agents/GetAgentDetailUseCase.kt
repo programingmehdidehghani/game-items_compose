@@ -1,6 +1,7 @@
 package com.example.game_api_compose.domain.usecase.agents
 
 import com.example.game_api_compose.common.Resource
+import com.example.game_api_compose.data.model.agents.toAgent
 import com.example.game_api_compose.domain.model.Agent
 import com.example.game_api_compose.domain.repository.ValorantRepository
 import kotlinx.coroutines.flow.Flow
@@ -14,13 +15,17 @@ class GetAgentDetailUseCase @Inject constructor(
 ) {
    operator fun invoke(agentUuid: String): Flow<Resource<Agent>> = flow {
 
-       try {
+/*       try {
+           emit(Resource.Loading)
+           valorantRepository.getAgentByUuid(agentUuid).data?.toAgent().
+               emit(Resource.Success(it))
+           }
 
        }catch (e: HttpException){
          emit(Resource.Error(e.localizedMessage.orEmpty()))
        }catch (e: IOException){
-           emit()
-       }
+           emit(Resource.Error(e.localizedMessage.orEmpty()))
+       }*/
    }
 
 }
