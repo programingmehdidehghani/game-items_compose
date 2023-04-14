@@ -44,7 +44,7 @@ class AgentsViewModel @Inject constructor(
        }.launchIn(viewModelScope)
     }
 
-    private fun searchAgent(query: String){
+    fun searchAgent(query: String){
         _searchQuery.value = query
         _state.value = AgentsState(isLoading = true)
 
@@ -60,7 +60,7 @@ class AgentsViewModel @Inject constructor(
         }
     }
 
-    private fun clearSearchQuery(){
+    fun clearSearchQuery(){
         _state.value = AgentsState(agents = allAgents)
         _searchQuery.value = ""
     }
