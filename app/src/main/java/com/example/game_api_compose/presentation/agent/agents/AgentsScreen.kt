@@ -1,7 +1,6 @@
 package com.example.game_api_compose.presentation.agent.agents
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.BoxScopeInstance.align
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.CircularProgressIndicator
@@ -15,6 +14,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.game_api_compose.R
 import com.example.game_api_compose.common.components.ErrorText
 import com.example.game_api_compose.common.components.SearchBar
+import androidx.compose.foundation.lazy.grid.items
+
 
 
 @Composable
