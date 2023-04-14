@@ -1,5 +1,6 @@
 package com.example.game_api_compose.presentation.agent.agentDetail
 
+import android.widget.TableLayout
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -11,12 +12,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.game_api_compose.common.components.HeaderText
 import com.example.game_api_compose.presentation.theme.ValoRed
 import com.example.game_api_compose.presentation.theme.ValoWhite
 import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.glide.GlideImage
+import com.example.game_api_compose.R
+import com.example.game_api_compose.common.components.ErrorText
 
 
 @Composable
@@ -47,30 +52,70 @@ fun AgentDetailScreen(
                     .fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ){
-               GlideImage(
-                   modifier = Modifier.size(300.dp),
-                   imageModel = it.fullPortrait,
-                   circularReveal = CircularReveal(),
-                   contentDescription = stringResource(R.string.default_error_message)
-               )
-                
-                Spacer(modifier = Modifier.size(24.dp))
-
-                Text(
-                    text = it.displayName,
-                    style = MaterialTheme.typography.h4
+                GlideImage(
+                    modifier = Modifier.fillMaxSize(),
+                    imageModel = it.role?.displayIcon,
+                    circularReveal = CircularReveal(),
+                    alpha = 0.2f
                 )
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    GlideImage(
+                        modifier = Modifier.size(300.dp),
+                        imageModel = it.fullPortrait,
+                        circularReveal = CircularReveal(),
+                        contentDescription = stringResource(R.string.desc_agent_image)
+                    )
 
-                Spacer(modifier = Modifier.size(12.dp))
+                    Spacer(modifier = Modifier.size(24.dp))
 
-                Text(
-                    text = it.role?.displayName.orEmpty(),
-                    style = MaterialTheme.typography.h5
-                )
+                    Text(
+                        text = it.displayName,
+                        style = MaterialTheme.typography.h4
+                    )
+
+                    Spacer(modifier = Modifier.size(12.dp))
+
+                    Text(
+                        text = it.role?.displayName.orEmpty(),
+                        style = MaterialTheme.typography.h5
+                    )
+                }
             }
+            Spacer(modifier = Modifier.size(24.dp))
+
+            HeaderText(header = stringResource(R.string.title_description))
+
+            Spacer(modifier = Modifier.size(8.dp))
+
+            Text(
+                modifier = Modifier.padding(
+                    start = 24.dp,
+                    end = 24.dp
+                ),
+                text = it.description,
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.body1
+            )
+
+            Spacer(modifier = Modifier.size(24.dp))
+            
+            HeaderText(header = stringResource(R.string.title_abilities))
+
+            Spacer(modifier = Modifier.size(8.dp))
+
+            TabLayout(it.abilities)
         }
 
-        Spacer(modifier = Modifier.size(24.dp))
+        if (state.error.isNotBlank()) ErrorText(
+            state.error,
+            Modifier.align(Alignment.CenterHorizontally)
+        )
+            
+        if (state.isLoading){
+
+        }
 
     }
 
