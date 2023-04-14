@@ -1,11 +1,10 @@
 package com.example.game_api_compose.presentation.agent.agentDetail
 
-import android.widget.TableLayout
 import androidx.compose.animation.Animatable
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.pager.rememberPagerState
+import com.google.accompanist.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -27,7 +26,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.game_api_compose.common.components.HeaderText
 import com.example.game_api_compose.presentation.theme.ValoRed
-import com.example.game_api_compose.presentation.theme.ValoWhite
 import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.glide.GlideImage
 import com.example.game_api_compose.R
@@ -224,6 +222,5 @@ fun TabLayout(
               }
             }
         }
-
     }
 }
