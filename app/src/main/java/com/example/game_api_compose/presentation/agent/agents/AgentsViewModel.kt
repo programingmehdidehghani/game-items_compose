@@ -26,7 +26,7 @@ class AgentsViewModel @Inject constructor(
     val searchQuery: State<String> = _searchQuery
 
     init {
-
+      getAgents()
     }
 
     private fun getAgents(){
@@ -44,7 +44,24 @@ class AgentsViewModel @Inject constructor(
        }.launchIn(viewModelScope)
     }
 
-    private fun searchAgent(){
-        
+    private fun searchAgent(query: String){
+        _searchQuery.value = query
+        _state.value = AgentsState(isLoading = true)
+
+        val foundAgents =
+            allAgents.filter {
+                it.displayName.contains(query,true) or
+                        it.description.contains(query,true)
+            }
+        if (foundAgents.isEmpty()){
+            _state.value = AgentsState(error = "No agents matching with your search")
+        } else{
+            _state.value = AgentsState(agents = foundAgents)
+        }
+    }
+
+    private fun clearSearchQuery(){
+        _state.value = AgentsState(agents = allAgents)
+        _searchQuery.value = ""
     }
 }
