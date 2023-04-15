@@ -9,6 +9,6 @@
 + Dagger-Hilt(Di)
 + Coroutines
 
+![1](https://user-images.githubusercontent.com/74426462/232233848-226248be-8ada-49e1-b223-b6a07136dabf.jpg)
 
-![Screenshot_20230415-183742_game_api_compose](https://user-images.githubusercontent.com/74426462/232233717-e4238d2d-6af9-47ab-8ee3-9efc8fd582c9.jpg)
-![Screenshot_20230415-183933_game_api_compose](https://user-images.githubusercontent.com/74426462/232233722-73fa09b3-bfb5-4c81-a528-1055cfc37f10.jpg)
+![2](https://user-images.githubusercontent.com/74426462/232233853-7b52036c-17b0-4fa8-945b-0420ad611b0c.jpg)
