@@ -18,7 +18,8 @@ import com.example.game_api_compose.common.components.ErrorText
 
 @Composable
 fun MapsScreen(
-    viewModel: MapsViewModel = hiltViewModel()
+    viewModel: MapsViewModel = hiltViewModel(),
+    navigateToMapDetail: (String) -> Unit
 ){
 
     val state = viewModel.state.value
@@ -50,3 +51,5 @@ fun MapsScreen(
 
     }
 }
+
+
