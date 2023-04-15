@@ -2,7 +2,6 @@ package com.example.game_api_compose.presentation.map.maps
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScopeInstance.align
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -51,5 +50,6 @@ fun MapsScreen(
 
     }
 }
+
 
 
