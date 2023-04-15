@@ -1,15 +1,24 @@
 package com.example.game_api_compose.presentation.weapon.weapondetail
 
+import android.annotation.SuppressLint
+import androidx.compose.animation.Animatable
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -17,10 +26,18 @@ import com.example.game_api_compose.presentation.theme.ValoRed
 import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.glide.GlideImage
 import com.example.game_api_compose.R
+import com.example.game_api_compose.common.components.ErrorText
 import com.example.game_api_compose.common.components.HeaderText
 import com.example.game_api_compose.common.components.LinearProgress
+import com.example.game_api_compose.data.model.weapons.Skin
+import com.example.game_api_compose.presentation.theme.ValoBlue
+import com.example.game_api_compose.presentation.theme.ValoLightBlue
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import kotlinx.coroutines.launch
 
 
+@ExperimentalPagerApi
 @Composable
 fun WeaponDetailScreen(
     viewModel: WeaponDetailViewModel = hiltViewModel()
@@ -108,7 +125,109 @@ fun WeaponDetailScreen(
 
             Spacer(modifier = Modifier.size(16.dp))
             
-            HeaderText(header = )
+            HeaderText(header = stringResource(R.string.title_skins))
+
+            Spacer(modifier = Modifier.size(16.dp))
+
+            TabLayout(it.skins.orEmpty())
+        }
+
+        if (state.error.isNotBlank()) ErrorText(
+            state.error,
+            Modifier.align(Alignment.CenterHorizontally)
+        )
+
+        if (state.isLoading){
+             CircularProgressIndicator(
+                 modifier = Modifier.align(Alignment.CenterHorizontally),
+                 color = Color.White
+             )
+        }
+    }
+}
+
+@ExperimentalPagerApi
+@SuppressLint("RememberReturnType")
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun TabLayout(
+    skins: List<Skin>
+){
+    val pagerState  = rememberPagerState()
+    val coroutineScope = rememberCoroutineScope()
+
+    Card(
+        backgroundColor = ValoLightBlue,
+        modifier = Modifier
+            .clip(
+                shape = RoundedCornerShape(20.dp)
+            )
+            .padding(start = 24.dp, end = 24.dp, bottom = 24.dp)
+    ) {
+        Column {
+            ScrollableTabRow(
+                selectedTabIndex = pagerState.currentPage,
+                edgePadding = 0.dp
+            ) {
+               skins.forEachIndexed{ tabIndex , skin ->
+                    val color = remember {
+                       Animatable(ValoRed)
+                    }
+                   
+                   LaunchedEffect(
+                       pagerState.currentPage == tabIndex
+                   ){
+                       color.animateTo(if (pagerState.currentPage == tabIndex) ValoRed else ValoBlue)
+                   }
+
+                   Tab(
+                       selected = pagerState.currentPage == tabIndex,
+                       onClick = {
+                           coroutineScope.launch {
+                               pagerState.animateScrollToPage(tabIndex)
+                           }
+                       },
+                       icon = {
+                           GlideImage(
+                               imageModel = skin.displayIcon,
+                               circularReveal = CircularReveal(),
+                               contentScale = ContentScale.Fit,
+                               modifier = Modifier.size(76.dp)
+                           )
+                       },
+                       modifier = Modifier
+                           .background(color = color.value)
+                   )
+               }
+            }
+
+            Spacer(modifier = Modifier.size(12.dp))
+
+            HorizontalPager(
+                count = skins.size,
+                state = pagerState
+            ) {page ->
+               Column(
+                   horizontalAlignment = Alignment.CenterHorizontally,
+                   verticalArrangement = Arrangement.Center
+               ) {
+                  GlideImage(
+                      imageModel = skins[page].displayIcon,
+                      circularReveal = CircularReveal(),
+                      contentScale = ContentScale.Fit,
+                      modifier = Modifier
+                          .fillMaxWidth()
+                          .padding(horizontal = 32.dp, vertical = 16.dp)
+                  )
+
+                   Text(
+                       text = skins[page].displayName.orEmpty(),
+                       style = MaterialTheme.typography.h5,
+                       modifier = Modifier.padding(16.dp)
+                   )
+               }
+            }
+
         }
 
     }
