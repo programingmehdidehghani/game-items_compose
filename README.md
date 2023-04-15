@@ -9,6 +9,6 @@
 + Dagger-Hilt(Di)
 + Coroutines
 
-![1](https://user-images.githubusercontent.com/74426462/232233848-226248be-8ada-49e1-b223-b6a07136dabf.jpg)
+![1](https://user-images.githubusercontent.com/74426462/232244953-0dd6d060-60cd-4a4a-b76b-54c47636f71f.jpg)
+![2](https://user-images.githubusercontent.com/74426462/232244961-dfa69187-7e98-43d7-8a1a-2b33e031fbd1.jpg)
 
-![2](https://user-images.githubusercontent.com/74426462/232233853-7b52036c-17b0-4fa8-945b-0420ad611b0c.jpg)
